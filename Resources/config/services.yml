@@ -1,0 +1,7 @@
+parameters:
+#    fox_elasticsearch.example.class: Fox\ElasticsearchBundle\Example
+
+services:
+#    fox_elasticsearch.example:
+#        class: %fox_elasticsearch.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

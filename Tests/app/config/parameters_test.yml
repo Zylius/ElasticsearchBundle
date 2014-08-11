@@ -1,0 +1,4 @@
+parameters:
+    elasticsearch.host: localhost
+    elasticsearch.port: 9200
+    elasticsearch.index: fox-elascticsearch-bundle

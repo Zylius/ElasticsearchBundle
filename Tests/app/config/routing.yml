@@ -1,0 +1,3 @@
+fox_content:
+    resource: "@FoxContentBundle/Resources/config/routing.yml"
+    prefix:   /
