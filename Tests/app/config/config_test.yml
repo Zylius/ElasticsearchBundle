@@ -12,12 +12,12 @@ fox_elasticsearch:
             host: 127.0.0.1
             port: 9200
     indexes:
-        test-index:
+        test_index:
             default: true
             settings:
                 refresh_interval: -1
                 number_of_replicas: 1
-        foo-index:
+        foo_index:
             settings:
                 refresh_interval: -1
                 number_of_replicas: 1

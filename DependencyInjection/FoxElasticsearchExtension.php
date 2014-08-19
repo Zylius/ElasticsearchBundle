@@ -49,15 +49,6 @@ class FoxElasticsearchExtension extends Extension
     protected function loadElasticsearchServices($config, ContainerBuilder $container)
     {
         foreach ($config['indexes'] as $name => $setting) {
-            $service = new Definition(
-                'Fox\ElasticsearchBundle\Services\ElasticsearchService',
-                [
-                    ['name' => $name, 'body' => $setting]
-                ]
-            );
-            $service->setFactoryService('fox.elasticsearch_service.factory');
-            $service->setFactoryMethod('get');
-
             $id = '';
             if ($setting['default']) {
                 $id = 'fox.elasticsearch';
@@ -65,6 +56,15 @@ class FoxElasticsearchExtension extends Extension
                 $id = sprintf('fox.elasticsearch.%s', Container::camelize($name));
             }
             unset($setting['default']);
+
+            $service = new Definition(
+                'Fox\ElasticsearchBundle\Services\ElasticsearchService',
+                [
+                    ['index' => $name, 'body' => $setting]
+                ]
+            );
+            $service->setFactoryService('fox.elasticsearch_service.factory');
+            $service->setFactoryMethod('get');
 
             $container->setDefinition($id, $service);
         }

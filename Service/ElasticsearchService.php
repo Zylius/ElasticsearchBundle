@@ -28,7 +28,7 @@ class ElasticsearchService
      * Holds index information. Similar structure to elasticsearch docs.
      *
      * array(
-     *      'name' => 'index name'
+     *      'index' => 'index name'
      *      'body' => [
      *          'settings' => ['settings array']
      *      ]
@@ -42,10 +42,10 @@ class ElasticsearchService
      * @param Client $client
      * @param array $index index settings
      */
-    public function __construct(Client $client, $indexName)
+    public function __construct(Client $client, $index)
     {
         $this->client = $client;
-        $this->indexName = $indexName;
+        $this->index = $index;
     }
 
     /**
@@ -53,7 +53,7 @@ class ElasticsearchService
      */
     public function createIndex()
     {
-        $this->client->create($this->index);
+        $this->client->indices()->create($this->index);
     }
 
     /**
@@ -61,7 +61,7 @@ class ElasticsearchService
      */
     public function dropIndex()
     {
-        $this->client->delete(['name' => $this->index['name']]);
+        $this->client->indices()->delete(['index' => $this->index['index']]);
     }
 
     /**
@@ -71,6 +71,6 @@ class ElasticsearchService
      */
     public function getIndexName()
     {
-        return $index['name'];
+        return $this->index['index'];
     }
 }
