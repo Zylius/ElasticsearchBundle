@@ -15,24 +15,35 @@
 
 namespace Fox\ElasticsearchBundle\Tests\Functional\DependencyInjection;
 
-use Fox\ElasticsearchBundle\DependencyInjection\FoxElasticsearchExtension;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class FoxElasticsearchExtensionTest extends \PHPUnit_Framework_TestCase
+class FoxElasticsearchExtensionTest extends WebTestCase
 {
     /**
-     * Test extension loader
+     * @return array
      */
-    public function testLoad()
+    public function getTestContainerData()
     {
-        $extension = new FoxElasticsearchExtension();
-        $container = new ContainerBuilder();
+        return [
+            ['fox.elasticsearch_service.factory', 'Fox\ElasticsearchBundle\Factory\ElasticsearchServiceFactory'],
+            ['fox.elasticsearch', 'Fox\ElasticsearchBundle\Service\ElasticsearchService'],
+            ['fox.elasticsearch.fooIndex', 'Fox\ElasticsearchBundle\Service\ElasticsearchService'],
+        ];
+    }
 
-        $container->setParameter('elasticsearch.host', '127.0.0.1');
+    /**
+     * Tests if container has all services
+     *
+     * @param $id string
+     * @param $instance string
+     *
+     * @dataProvider getTestContainerData
+     */
+    public function testContainer($id, $instance)
+    {
+        $container = self::createClient()->getContainer();
 
-        $extension->load(array(), $container);
-
-        $this->assertTrue($container->hasParameter('elasticsearch.host'));
-        $this->assertEquals('127.0.0.1', $container->getParameter('elasticsearch.host'));
+        $this->assertTrue($container->has($id), 'Container should have setted id.');
+        $this->assertInstanceOf($instance, $container->get($id), 'Container has wrong instance set to id.');
     }
 }

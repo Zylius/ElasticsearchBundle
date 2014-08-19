@@ -4,3 +4,20 @@ imports:
 # Framework Configuration
 framework:
     test: ~
+    secret: DontTellThisToAnyone
+
+fox_elasticsearch:
+    clients:
+        default:
+            host: 127.0.0.1
+            port: 9200
+    indexes:
+        test-index:
+            default: true
+            settings:
+                refresh_interval: -1
+                number_of_replicas: 1
+        foo-index:
+            settings:
+                refresh_interval: -1
+                number_of_replicas: 1

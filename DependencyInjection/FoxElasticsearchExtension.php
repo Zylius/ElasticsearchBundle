@@ -2,8 +2,11 @@
 
 namespace Fox\ElasticsearchBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -24,5 +27,46 @@ class FoxElasticsearchExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        $params = [];
+        foreach ($config['clients'] as $host) {
+            $params['hosts'][] = $host['host'] . ":" . $host['port'];
+        }
+
+        if (!empty($params)) {
+            $container->get('fox.elasticsearch_service.factory')->addParams($params);
+        }
+
+        $this->loadElasticsearchServices($config, $container);
+    }
+
+    /**
+     * Loads elasticsearch services
+     *
+     * @param array $config
+     * @param ContainerBuilder $container
+     */
+    protected function loadElasticsearchServices($config, ContainerBuilder $container)
+    {
+        foreach ($config['indexes'] as $name => $setting) {
+            $service = new Definition(
+                'Fox\ElasticsearchBundle\Services\ElasticsearchService',
+                [
+                    ['name' => $name, 'body' => $setting]
+                ]
+            );
+            $service->setFactoryService('fox.elasticsearch_service.factory');
+            $service->setFactoryMethod('get');
+
+            $id = '';
+            if ($setting['default']) {
+                $id = 'fox.elasticsearch';
+            } else {
+                $id = sprintf('fox.elasticsearch.%s', Container::camelize($name));
+            }
+            unset($setting['default']);
+
+            $container->setDefinition($id, $service);
+        }
     }
 }
