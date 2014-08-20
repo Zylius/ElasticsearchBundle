@@ -7,17 +7,19 @@ framework:
     secret: DontTellThisToAnyone
 
 fox_elasticsearch:
-    connections:
+    clients:
         default:
             host: 127.0.0.1
             port: 9200
     indexes:
-        test_index:
+        foo:
+            index_name: foo_index
             default: true
             settings:
                 refresh_interval: -1
                 number_of_replicas: 1
-        foo_index:
+        bar:
+            index_name: bar_index
             settings:
                 refresh_interval: -1
                 number_of_replicas: 1

@@ -27,7 +27,7 @@ class FoxElasticsearchExtensionTest extends WebTestCase
         return [
             ['es.factory', 'Fox\ElasticsearchBundle\Factory\ElasticsearchConnectionFactory'],
             ['es.connection', 'Fox\ElasticsearchBundle\Service\ElasticsearchConnection'],
-            ['es.connection.fooIndex', 'Fox\ElasticsearchBundle\Service\ElasticsearchConnection'],
+            ['es.connection.bar', 'Fox\ElasticsearchBundle\Service\ElasticsearchConnection'],
         ];
     }
 

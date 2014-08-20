@@ -28,7 +28,7 @@ class FoxElasticsearchExtension extends Extension
         $loader->load('services.yml');
 
         $params = [];
-        foreach ($config['connections'] as $host) {
+        foreach ($config['clients'] as $host) {
             $params['hosts'][] = $host['host'] . ":" . $host['port'];
         }
 
@@ -49,12 +49,15 @@ class FoxElasticsearchExtension extends Extension
     {
         foreach ($config['indexes'] as $name => $setting) {
             $id = $this->getServiceId($name, $setting['default']);
+            $indexName = $setting['index_name'];
+
             unset($setting['default']);
+            unset($setting['index_name']);
 
             $service = new Definition(
                 'Fox\ElasticsearchBundle\Service\ElasticsearchConnection',
                 [
-                    ['index' => $name, 'body' => $setting]
+                    ['index' => $indexName, 'body' => $setting]
                 ]
             );
             $service->setFactoryService('es.factory');
