@@ -69,6 +69,8 @@ class IndexCommandTest extends WebTestCase
     }
 
     /**
+     * Execution data provider
+     *
      * @return array
      */
     public function getTestExecuteData()
@@ -86,7 +88,7 @@ class IndexCommandTest extends WebTestCase
     }
 
     /**
-     * Tests creating default index
+     * Tests creating default index. If something goes wrong exceptions will be thrown
      *
      * @param array $input
      *
@@ -110,9 +112,21 @@ class IndexCommandTest extends WebTestCase
 
         $this->assertNotFalse(strpos($commandTester->getDisplay(), 'created'));
 
-        //drops index
+        //does not drop index
         $command = $app->find('es:index:drop');
         $commandTester = new CommandTester($command);
+        $commandTester->execute(array_merge(
+            $input,
+            [
+                'command' => $command->getName()
+            ]
+        ));
+        $this->assertNotFalse(strpos(
+            $commandTester->getDisplay(),
+            'Parameter --force has to be used to drop the index.'
+        ));
+
+        //drops index
         $commandTester->execute(array_merge(
             $input,
             [

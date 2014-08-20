@@ -49,12 +49,7 @@ class FoxElasticsearchExtension extends Extension
     protected function loadElasticsearchServices($config, ContainerBuilder $container)
     {
         foreach ($config['indexes'] as $name => $setting) {
-            $id = '';
-            if ($setting['default']) {
-                $id = 'fox.elasticsearch';
-            } else {
-                $id = sprintf('fox.elasticsearch.%s', Container::camelize($name));
-            }
+            $id = $this->getServiceId($name, $setting['default']);
             unset($setting['default']);
 
             $service = new Definition(
@@ -68,5 +63,22 @@ class FoxElasticsearchExtension extends Extension
 
             $container->setDefinition($id, $service);
         }
+    }
+
+    /**
+     * Returns elasticsearch index service id
+     *
+     * @param string $index
+     * @param bool $default
+     *
+     * @return string
+     */
+    protected function getServiceId($index, $default = false)
+    {
+        if ($default) {
+            return 'fox.elasticsearch';
+        }
+
+        return sprintf('fox.elasticsearch.%s', Container::camelize($index));
     }
 }

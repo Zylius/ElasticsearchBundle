@@ -37,7 +37,7 @@ class ElasticsearchServiceFactory
     /**
      * Returns Elasticsearch service instance
      *
-     * @param array $index
+     * @param array $index index information
      *
      * @return ElasticsearchService
      */
