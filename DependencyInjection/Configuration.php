@@ -22,7 +22,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('clients')
+                ->arrayNode('connections')
                     ->isRequired()
                     ->requiresAtLeastOneElement()
                     ->info('Defines connections to clients')
@@ -49,7 +49,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->booleanNode('default')
                                 ->defaultFalse()
-                                ->info('If set true could be accessed through fox.elasticsearch')
+                                ->info('If set true could be accessed through es.elasticsearch')
                             ->end()
                             ->scalarNode('index_name')
                                 ->isRequired()

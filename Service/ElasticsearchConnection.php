@@ -17,6 +17,9 @@ namespace Fox\ElasticsearchBundle\Service;
 
 use Elasticsearch\Client;
 
+/**
+ * This class interacts with elasticsearch using injected client
+ */
 class ElasticsearchConnection
 {
     /**

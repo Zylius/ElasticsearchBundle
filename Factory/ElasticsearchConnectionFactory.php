@@ -17,12 +17,9 @@ namespace Fox\ElasticsearchBundle\Factory;
 
 use Elasticsearch\Client;
 use Fox\ElasticsearchBundle\Service\ElasticsearchConnection;
-use Psr\Log\LoggerInterface;
 
 /**
  * Factory for elasticsearch connection
- *
- * @package Fox\ElasticsearchBundle\Factory
  */
 class ElasticsearchConnectionFactory
 {
