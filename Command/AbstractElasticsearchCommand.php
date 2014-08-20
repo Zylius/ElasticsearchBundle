@@ -15,18 +15,33 @@
 
 namespace Fox\ElasticsearchBundle\Command;
 
+use Fox\ElasticsearchBundle\Service\ElasticsearchConnection;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 abstract class AbstractElasticsearchCommand extends ContainerAwareCommand
 {
     /**
-     * Gets service id
+     * Returns elasticsearch connection by name
+     *
+     * @param $name
+     *
+     * @return ElasticsearchConnection
+     */
+    protected function getConnection($name)
+    {
+        return $this
+            ->getContainer()
+            ->get($this->getConnectionId($name));
+    }
+
+    /**
+     * Returns connection service id
      *
      * @param string $name
      *
      * @return string
      */
-    protected function getServiceId($name)
+    private function getConnectionId($name)
     {
         if (!$name) {
             return 'es.connection';

@@ -54,13 +54,10 @@ class DropIndexCommand extends AbstractElasticsearchCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($input->getOption('force')) {
+            $connection = $this->getConnection($input->getOption('connection'));
+            $connection->dropIndex();
 
-            $id = $this->getServiceId($input->getOption('connection'));
-            /** @var ElasticsearchService $service */
-            $service = $this->getContainer()->get($id);
-            $service->dropIndex();
-
-            $output->writeln(sprintf('<info>Index %s has been dropped.</info>', $service->getIndexName()));
+            $output->writeln(sprintf('<info>Index %s has been dropped.</info>', $connection->getIndexName()));
         } else {
             $output->writeln('Parameter --force has to be used to drop the index.');
         }

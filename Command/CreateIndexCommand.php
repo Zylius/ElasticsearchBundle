@@ -47,12 +47,9 @@ class CreateIndexCommand extends AbstractElasticsearchCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $id = $this->getServiceId($input->getOption('connection'));
+        $connection = $this->getConnection($input->getOption('connection'));
+        $connection->createIndex();
 
-        /** @var ElasticsearchService $service */
-        $service = $this->getContainer()->get($id);
-        $service->createIndex();
-
-        $output->writeln(sprintf('<info>Index %s created.</info>', $service->getIndexName()));
+        $output->writeln(sprintf('<info>Index %s created.</info>', $connection->getIndexName()));
     }
 }
