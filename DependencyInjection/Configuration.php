@@ -22,7 +22,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('clients')
+                ->arrayNode('connections')
                     ->isRequired()
                     ->requiresAtLeastOneElement()
                     ->info('Defines connections to clients')

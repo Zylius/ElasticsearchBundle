@@ -1,6 +1,6 @@
 parameters:
-    fox.elasticsearch_service.factory.class: Fox\ElasticsearchBundle\Factory\ElasticsearchServiceFactory
+    es.factory.class: Fox\ElasticsearchBundle\Factory\ElasticsearchConnectionFactory
 
 services:
-    fox.elasticsearch_service.factory:
-        class: %fox.elasticsearch_service.factory.class%
+    es.factory:
+        class: %es.factory.class%

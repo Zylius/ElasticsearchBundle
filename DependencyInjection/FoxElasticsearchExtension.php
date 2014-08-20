@@ -2,7 +2,6 @@
 
 namespace Fox\ElasticsearchBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
@@ -29,12 +28,12 @@ class FoxElasticsearchExtension extends Extension
         $loader->load('services.yml');
 
         $params = [];
-        foreach ($config['clients'] as $host) {
+        foreach ($config['connections'] as $host) {
             $params['hosts'][] = $host['host'] . ":" . $host['port'];
         }
 
         if (!empty($params)) {
-            $container->get('fox.elasticsearch_service.factory')->addParams($params);
+            $container->get('es.factory')->addParams($params);
         }
 
         $this->loadElasticsearchServices($config, $container);
@@ -53,12 +52,12 @@ class FoxElasticsearchExtension extends Extension
             unset($setting['default']);
 
             $service = new Definition(
-                'Fox\ElasticsearchBundle\Service\ElasticsearchService',
+                'Fox\ElasticsearchBundle\Service\ElasticsearchConnection',
                 [
                     ['index' => $name, 'body' => $setting]
                 ]
             );
-            $service->setFactoryService('fox.elasticsearch_service.factory');
+            $service->setFactoryService('es.factory');
             $service->setFactoryMethod('get');
 
             $container->setDefinition($id, $service);
@@ -68,17 +67,17 @@ class FoxElasticsearchExtension extends Extension
     /**
      * Returns elasticsearch index service id
      *
-     * @param string $index
+     * @param string $name
      * @param bool $default
      *
      * @return string
      */
-    protected function getServiceId($index, $default = false)
+    protected function getServiceId($name, $default = false)
     {
         if ($default) {
-            return 'fox.elasticsearch';
+            return 'es.connection';
         }
 
-        return sprintf('fox.elasticsearch.%s', Container::camelize($index));
+        return sprintf('es.connection.%s', strtolower($name));
     }
 }

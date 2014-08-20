@@ -17,7 +17,7 @@ namespace Fox\ElasticsearchBundle\Service;
 
 use Elasticsearch\Client;
 
-class ElasticsearchService
+class ElasticsearchConnection
 {
     /**
      * @var Client

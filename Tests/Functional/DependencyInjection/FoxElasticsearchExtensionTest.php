@@ -25,9 +25,9 @@ class FoxElasticsearchExtensionTest extends WebTestCase
     public function getTestContainerData()
     {
         return [
-            ['fox.elasticsearch_service.factory', 'Fox\ElasticsearchBundle\Factory\ElasticsearchServiceFactory'],
-            ['fox.elasticsearch', 'Fox\ElasticsearchBundle\Service\ElasticsearchService'],
-            ['fox.elasticsearch.fooIndex', 'Fox\ElasticsearchBundle\Service\ElasticsearchService'],
+            ['es.factory', 'Fox\ElasticsearchBundle\Factory\ElasticsearchConnectionFactory'],
+            ['es.connection', 'Fox\ElasticsearchBundle\Service\ElasticsearchConnection'],
+            ['es.connection.fooIndex', 'Fox\ElasticsearchBundle\Service\ElasticsearchConnection'],
         ];
     }
 

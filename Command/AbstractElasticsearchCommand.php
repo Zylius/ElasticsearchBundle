@@ -22,15 +22,15 @@ abstract class AbstractElasticsearchCommand extends ContainerAwareCommand
     /**
      * Gets service id
      *
-     * @param string $index
+     * @param string $name
      *
      * @return string
      */
-    protected function getServiceId($index)
+    protected function getServiceId($name)
     {
-        if (!$index) {
-            return 'fox.elasticsearch';
+        if (!$name) {
+            return 'es.connection';
         }
-        return sprintf('fox.elasticsearch.%s', $index);
+        return sprintf('es.connection.%s', strtolower($name));
     }
 }
