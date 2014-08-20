@@ -81,7 +81,7 @@ class IndexCommandTest extends WebTestCase
             ],
             [
                 [
-                    '--index' => 'foo_index'
+                    '--connection' => 'foo_index'
                 ]
             ]
         ];

@@ -21,7 +21,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DropIndexCommand extends ContainerAwareCommand
+/**
+ * Command for dropping elasticsearch index
+ */
+class DropIndexCommand extends AbstractElasticsearchCommand
 {
     /**
      * {@inheritdoc}
@@ -32,7 +35,7 @@ class DropIndexCommand extends ContainerAwareCommand
             ->setName('es:index:drop')
             ->setDescription('Drops elasticsearch index')
             ->addOption(
-                'index',
+                'connection',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Set index to drop'
@@ -52,12 +55,7 @@ class DropIndexCommand extends ContainerAwareCommand
     {
         if ($input->getOption('force')) {
 
-            if ($input->getOption('index')) {
-                $id = sprintf('fox.elasticsearch.%s', $input->getOption('index'));
-            } else {
-                $id = 'fox.elasticsearch';
-            }
-
+            $id = $this->getServiceId($input->getOption('connection'));
             /** @var ElasticsearchService $service */
             $service = $this->getContainer()->get($id);
             $service->dropIndex();

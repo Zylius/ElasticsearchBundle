@@ -53,7 +53,7 @@ class FoxElasticsearchExtension extends Extension
             unset($setting['default']);
 
             $service = new Definition(
-                'Fox\ElasticsearchBundle\Services\ElasticsearchService',
+                'Fox\ElasticsearchBundle\Service\ElasticsearchService',
                 [
                     ['index' => $name, 'body' => $setting]
                 ]

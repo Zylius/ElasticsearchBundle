@@ -22,11 +22,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Command for creating elasticsrach index
- *
- * @package Fox\ElasticsearchBundle\Command
+ * Command for creating elasticsearch index
  */
-class CreateIndexCommand extends ContainerAwareCommand
+class CreateIndexCommand extends AbstractElasticsearchCommand
 {
     /**
      * {@inheritdoc}
@@ -37,7 +35,7 @@ class CreateIndexCommand extends ContainerAwareCommand
             ->setName('es:index:create')
             ->setDescription('Creates elasticsearch index.')
             ->addOption(
-                'index',
+                'connection',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Index name to create'
@@ -49,11 +47,7 @@ class CreateIndexCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('index')) {
-            $id = sprintf('fox.elasticsearch.%s', $input->getOption('index'));
-        } else {
-            $id = 'fox.elasticsearch';
-        }
+        $id = $this->getServiceId($input->getOption('connection'));
 
         /** @var ElasticsearchService $service */
         $service = $this->getContainer()->get($id);
