@@ -17,6 +17,7 @@ namespace Fox\ElasticsearchBundle\Factory;
 
 use Elasticsearch\Client;
 use Fox\ElasticsearchBundle\Service\ElasticsearchConnection;
+use Psr\Log\LoggerInterface;
 
 /**
  * Factory for elasticsearch connection
@@ -67,5 +68,15 @@ class ElasticsearchConnectionFactory
     public function addParams($params)
     {
         $this->params = array_replace($this->params, $params);
+    }
+
+    /**
+     * Sets logger object to client params
+     *
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->addParams(['logObject' => $logger]);
     }
 }
