@@ -41,7 +41,7 @@ class FoxElasticsearchExtensionTest extends WebTestCase
      */
     public function testContainer($id, $instance)
     {
-        $container = self::createClient()->getContainer();
+        $container = static::createClient()->getContainer();
 
         $this->assertTrue($container->has($id), 'Container should have setted id.');
         $this->assertInstanceOf($instance, $container->get($id), 'Container has wrong instance set to id.');

@@ -1,24 +1,11 @@
 parameters:
     es.factory.class: Fox\ElasticsearchBundle\Factory\ElasticsearchConnectionFactory
-
-    es.logger.class: Monolog\Logger
-    es.logger.stream_handler.class: Monolog\Handler\StreamHandler
-    es.logger.stream_handler.log_level: 0
+    es.factory.params:
+        logPath: %kernel.logs_dir%/elasticsearch_%kernel.environment%.log
+        tracePath: %kernel.logs_dir%/elasticsearch_trace_%kernel.environment%.log
 
 services:
-    es.logger:
-            class: %es.logger.class%
-            arguments: [elasticsearch]
-            calls:
-                - [pushHandler, [@es.logger.stream_handler]]
-
-    es.logger.stream_handler:
-        class: %es.logger.stream_handler.class%
-        arguments:
-          - %kernel.logs_dir%/elasticsearch_%kernel.environment%.log
-          - %es.logger.stream_handler.log_level%
-
     es.factory:
         class: %es.factory.class%
         calls:
-            - [setLogger, [@es.logger]]
+            - [addParams, [%es.factory.params%]]

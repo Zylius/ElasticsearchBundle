@@ -51,7 +51,7 @@ class ElasticsearchConnectionFactory
     }
 
     /**
-     * Sets client parameters
+     * Sets parameters to client
      *
      * @param array $params
      */
@@ -61,22 +61,12 @@ class ElasticsearchConnectionFactory
     }
 
     /**
-     * Adds client parameters
+     * Adds parameters to client
      *
      * @param array $params
      */
     public function addParams($params)
     {
         $this->params = array_replace($this->params, $params);
-    }
-
-    /**
-     * Sets logger object to client params
-     *
-     * @param LoggerInterface $logger
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->addParams(['logObject' => $logger]);
     }
 }

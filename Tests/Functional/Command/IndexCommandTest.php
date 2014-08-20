@@ -39,7 +39,7 @@ class IndexCommandTest extends WebTestCase
      */
     protected function setUp()
     {
-        $this->container = self::createClient()->getContainer();
+        $this->container = static::createClient()->getContainer();
     }
 
     /**
@@ -110,7 +110,7 @@ class IndexCommandTest extends WebTestCase
             ]
         ));
 
-        $this->assertNotFalse(strpos($commandTester->getDisplay(), 'created'));
+        $this->assertContains('created', $commandTester->getDisplay());
 
         //does not drop index
         $command = $app->find('es:index:drop');
@@ -135,6 +135,6 @@ class IndexCommandTest extends WebTestCase
             ]
         ));
 
-        $this->assertNotFalse(strpos($commandTester->getDisplay(), 'dropped'));
+        $this->assertContains('dropped', $commandTester->getDisplay());
     }
 }
