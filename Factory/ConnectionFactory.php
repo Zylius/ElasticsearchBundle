@@ -16,12 +16,12 @@
 namespace Fox\ElasticsearchBundle\Factory;
 
 use Elasticsearch\Client;
-use Fox\ElasticsearchBundle\Service\ElasticsearchConnection;
+use Fox\ElasticsearchBundle\Service\Connection;
 
 /**
  * Factory for elasticsearch connection
  */
-class ElasticsearchConnectionFactory
+class ConnectionFactory
 {
     /**
      * Default params for elasticsearch-php client
@@ -41,7 +41,7 @@ class ElasticsearchConnectionFactory
      */
     public function get(array $index)
     {
-        return new ElasticsearchConnection(
+        return new Connection(
             new Client($this->params),
             $index
         );

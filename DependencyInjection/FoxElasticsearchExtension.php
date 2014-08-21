@@ -27,15 +27,6 @@ class FoxElasticsearchExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $params = [];
-        foreach ($config['connections'] as $host) {
-            $params['hosts'][] = $host['host'] . ":" . $host['port'];
-        }
-
-        if (!empty($params)) {
-            $container->get('es.connection_factory')->addParams($params);
-        }
-
         $this->loadElasticsearchServices($config, $container);
     }
 
@@ -47,40 +38,44 @@ class FoxElasticsearchExtension extends Extension
      */
     protected function loadElasticsearchServices($config, ContainerBuilder $container)
     {
-        foreach ($config['indexes'] as $name => $setting) {
-            $id = $this->getServiceId($name, $setting['default']);
-            $indexName = $setting['index_name'];
+        foreach ($config['connections'] as $name => $setting) {
+            $params = [];
+            foreach ($setting['hosts'] as $host) {
+                $params['hosts'][] = $host['host'] . ':' . $host['port'];
+            }
 
-            unset($setting['default']);
-            unset($setting['index_name']);
+            if (!empty($params)) {
+                $container->get('es.connection_factory')->addParams($params);
+            }
 
             $service = new Definition(
-                'Fox\ElasticsearchBundle\Service\ElasticsearchConnection',
+                'Fox\ElasticsearchBundle\Service\Connection',
                 [
-                    ['index' => $indexName, 'body' => $setting]
+                    [
+                        'index' => $setting['index_name'],
+                        'body' => ['settings' => $setting['settings']]
+                    ]
                 ]
             );
             $service->setFactoryService('es.connection_factory');
             $service->setFactoryMethod('get');
 
-            $container->setDefinition($id, $service);
+            $container->setDefinition(
+                $this->getServiceId($name),
+                $service
+            );
         }
     }
 
     /**
-     * Returns elasticsearch index service id
+     * Returns elasticsearch connection service id
      *
      * @param string $name
-     * @param bool $default
      *
      * @return string
      */
-    protected function getServiceId($name, $default = false)
+    protected function getServiceId($name)
     {
-        if ($default) {
-            return 'es.connection';
-        }
-
-        return sprintf('es.connection.%s', strtolower($name));
+        return $name == 'default' ? 'es.connection' : sprintf('es.connection.%s', strtolower($name));
     }
 }

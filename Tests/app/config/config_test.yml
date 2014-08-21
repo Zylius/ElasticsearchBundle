@@ -9,17 +9,16 @@ framework:
 fox_elasticsearch:
     connections:
         default:
-            host: 127.0.0.1
-            port: 9200
-    indexes:
-        foo:
-            index_name: foo_index
-            default: true
+            hosts:
+                - { host: %elasticsearch.host%, port: %elasticsearch.port% }
+            index_name: %elasticsearch.index%
             settings:
                 refresh_interval: -1
                 number_of_replicas: 1
         bar:
+            hosts:
+                - { host: %elasticsearch.host%, port: %elasticsearch.port% }
             index_name: bar_index
             settings:
                 refresh_interval: -1
-                number_of_replicas: 1
+                number_of_replicas: 2
