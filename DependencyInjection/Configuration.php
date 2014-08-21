@@ -20,9 +20,43 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('fox_elasticsearch');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->arrayNode('connections')
+                    ->isRequired()
+                    ->requiresAtLeastOneElement()
+                    ->info('Defines indexes and its settings.')
+                    ->prototype('array')
+                        ->children()
+                            ->arrayNode('hosts')
+                                ->info('Defines hosts to connect to.')
+                                ->requiresAtLeastOneElement()
+                                ->prototype('array')
+                                    ->children()
+                                        ->scalarNode('host')
+                                            ->info('Sets host for connection.')
+                                            ->defaultValue('127.0.0.1')
+                                        ->end()
+                                        ->integerNode('port')
+                                            ->info('Sets port for connection.')
+                                            ->defaultValue(9200)
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                            ->scalarNode('index_name')
+                                ->isRequired()
+                                ->info('Sets index name for connection')
+                            ->end()
+                            ->arrayNode('settings')
+                                ->isRequired()
+                                ->prototype('variable')
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }

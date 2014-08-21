@@ -1,7 +1,11 @@
 parameters:
-#    fox_elasticsearch.example.class: Fox\ElasticsearchBundle\Example
+    es.connection_factory.class: Fox\ElasticsearchBundle\Factory\ConnectionFactory
+    es.connection_factory.params:
+        logPath: %kernel.logs_dir%/elasticsearch_%kernel.environment%.log
+        tracePath: %kernel.logs_dir%/elasticsearch_trace_%kernel.environment%.log
 
 services:
-#    fox_elasticsearch.example:
-#        class: %fox_elasticsearch.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    es.connection_factory:
+        class: %es.connection_factory.class%
+        calls:
+            - [addParams, [%es.connection_factory.params%]]

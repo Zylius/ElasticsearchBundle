@@ -9,15 +9,7 @@ class AppKernel extends Kernel
     {
         return array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new Symfony\Bundle\TwigBundle\TwigBundle(),
-            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new Liip\ImagineBundle\LiipImagineBundle(),
-            new \Fox\DDALBundle\FoxDDALBundle(),
-            new Fox\ConnectionsBundle\FoxConnectionsBundle(),
-            new \Fox\SeoBundle\FoxSeoBundle(),
-            new Fox\ContentBundle\FoxContentBundle(),
-            new Fox\UtilsBundle\FoxUtilsBundle(),
-            new Crunch\Bundle\SSIBundle\CrunchSSIBundle(),
+            new Fox\ElasticsearchBundle\FoxElasticsearchBundle()
         );
     }
 
