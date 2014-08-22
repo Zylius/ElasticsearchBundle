@@ -46,12 +46,12 @@ final class Type
     /**
      * @var string
      */
-    public $indexAnalyzer;
+    public $index_analyzer;
 
     /**
      * @var string
      */
-    public $searchAnalyzer;
+    public $search_analyzer;
 
     /**
      * @var float

@@ -33,7 +33,8 @@ class Connection
      * array(
      *      'index' => 'index name'
      *      'body' => [
-     *          'settings' => ['settings array']
+     *          'settings' => [...],
+     *          'mappings' => [...]
      *      ]
      * )
      *
@@ -75,5 +76,21 @@ class Connection
     public function getIndexName()
     {
         return $this->index['index'];
+    }
+
+    /**
+     * Returns mapping by type
+     *
+     * @param string $type
+     *
+     * @return array|null
+     */
+    public function getMapping($type)
+    {
+        if (array_key_exists($type, $this->index['body']['mappings'])) {
+            return $this->index['body']['mappings'][$type];
+        }
+
+        return null;
     }
 }

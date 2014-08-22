@@ -56,8 +56,14 @@ class FoxElasticsearchExtension extends Extension
     protected function loadElasticsearchServices($config, ContainerBuilder $container)
     {
         foreach ($config['connections'] as $name => $setting) {
+
             $params = [];
-            $mapping = [];
+            $index = [
+                'index' => $setting['index_name'],
+                'body' => [
+                    'settings' => $setting['settings']
+                ]
+            ];
 
             foreach ($setting['hosts'] as $host) {
                 $params['hosts'][] = $host['host'] . ':' . $host['port'];
@@ -67,26 +73,23 @@ class FoxElasticsearchExtension extends Extension
                 $container->get('es.connection_factory')->addParams($params);
             }
 
+            $mappings = [];
             if (array_key_exists($name, $config['document_managers'])) {
                 foreach ($config['document_managers'][$name]['mappings'] as $bundle) {
-                    $mapping = array_replace_recursive(
-                        $mapping,
+                    $mappings = array_replace_recursive(
+                        $mappings,
                         $this->getMapping($bundle, $container)
                     );
                 }
             }
 
+            if (!empty($mappings)) {
+                $index['body']['mappings'] = $mappings;
+            }
+
             $service = new Definition(
                 'Fox\ElasticsearchBundle\Service\Connection',
-                [
-                    [
-                        'index' => $setting['index_name'],
-                        'body' => [
-                            'settings' => $setting['settings'],
-                            'mappings' => $mapping
-                        ]
-                    ]
-                ]
+                [$index]
             );
             $service->setFactoryService('es.connection_factory');
             $service->setFactoryMethod('get');
@@ -149,7 +152,7 @@ class FoxElasticsearchExtension extends Extension
      * Retrieves mapping from local cache otherwise runs through bundle files
      *
      * @param string $bundle
-     * @param ContainerBuilder$container
+     * @param ContainerBuilder $container
      *
      * @return array
      */

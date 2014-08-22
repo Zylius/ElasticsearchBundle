@@ -27,7 +27,7 @@ fox_elasticsearch:
             connection: default
             mappings:
                 - FoxElasticsearchBundle
-                - FrameworkBundle
+                - AcmeTestBundle
         bar:
             connection: bar
             mappings:

@@ -9,7 +9,9 @@ class AppKernel extends Kernel
     {
         return array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new Fox\ElasticsearchBundle\FoxElasticsearchBundle()
+            new Fox\ElasticsearchBundle\FoxElasticsearchBundle(),
+            //for testing document loading
+            new Fox\ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\AcmeTestBundle(),
         );
     }
 
