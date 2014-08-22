@@ -22,3 +22,13 @@ fox_elasticsearch:
             settings:
                 refresh_interval: -1
                 number_of_replicas: 2
+    document_managers:
+        default:
+            connection: default
+            mappings:
+                - FoxElasticsearchBundle
+                - FrameworkBundle
+        bar:
+            connection: bar
+            mappings:
+                - FoxElasticsearchBundle
