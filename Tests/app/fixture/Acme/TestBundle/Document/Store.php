@@ -15,24 +15,13 @@
 
 namespace Fox\ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\Document;
 
-use Fox\ElasticsearchBundle\Annotation as ES;
-
 /**
- * @ES\Document
+ * Class Store
  */
-final class Product
+final class Store
 {
     /**
      * @var string
-     *
-     * @ES\Type(type="string", name="id", index="not_analyzed")
      */
     public $id;
-
-    /**
-     * @var string
-     *
-     * @ES\Type(type="string", name="title")
-     */
-    public $title;
 }

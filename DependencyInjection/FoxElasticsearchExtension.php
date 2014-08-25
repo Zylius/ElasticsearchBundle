@@ -60,32 +60,29 @@ class FoxElasticsearchExtension extends Extension
             $params = [];
             $index = [
                 'index' => $setting['index_name'],
-                'body' => [
-                    'settings' => $setting['settings']
-                ]
             ];
+
+            !empty($setting['settings']) && $index['body']['settings'] = $setting['settings'];
 
             foreach ($setting['hosts'] as $host) {
                 $params['hosts'][] = $host['host'] . ':' . $host['port'];
             }
 
-            if (!empty($params)) {
-                $container->get('es.connection_factory')->addParams($params);
-            }
+            !empty($params) && $container->get('es.connection_factory')->addParams($params);
 
             $mappings = [];
-            if (array_key_exists($name, $config['document_managers'])) {
-                foreach ($config['document_managers'][$name]['mappings'] as $bundle) {
-                    $mappings = array_replace_recursive(
-                        $mappings,
-                        $this->getMapping($bundle, $container)
-                    );
+            foreach ($config['document_managers'] as $managerSetting) {
+                if ($managerSetting['connection'] == $name) {
+                    foreach ($managerSetting['mappings'] as $bundle) {
+                        $mappings = array_replace_recursive(
+                            $mappings,
+                            $this->getMapping($bundle, $container)
+                        );
+                    }
                 }
             }
 
-            if (!empty($mappings)) {
-                $index['body']['mappings'] = $mappings;
-            }
+            !empty($mappings) && $index['body']['mappings'] = $mappings;
 
             $service = new Definition(
                 'Fox\ElasticsearchBundle\Service\Connection',
@@ -106,8 +103,6 @@ class FoxElasticsearchExtension extends Extension
      *
      * @param array $config
      * @param ContainerBuilder $container
-     *
-     * @throws \LogicException Connection not found
      */
     protected function loadDocumentManagers($config, ContainerBuilder $container)
     {
@@ -202,7 +197,7 @@ class FoxElasticsearchExtension extends Extension
                 );
 
                 $documentMapping = $this->getDocumentMapping($documentReflection);
-                if ($documentMapping == null) {
+                if (empty($documentMapping)) {
                     continue;
                 }
                 $mappings[strtolower($filename)]['properties'] = $documentMapping;
@@ -230,7 +225,7 @@ class FoxElasticsearchExtension extends Extension
             /** @var \ReflectionProperty $property */
             foreach ($reflectionClass->getProperties() as $property) {
                 $type = $reader->getPropertyAnnotation($property, 'Fox\ElasticsearchBundle\Annotation\Type');
-                $mapping[$type->name] = $type->filter();
+                !empty($type) && $mapping[$type->name] = $type->filter();
             }
 
             return $mapping;

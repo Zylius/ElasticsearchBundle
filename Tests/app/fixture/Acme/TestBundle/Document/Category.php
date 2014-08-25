@@ -20,19 +20,7 @@ use Fox\ElasticsearchBundle\Annotation as ES;
 /**
  * @ES\Document
  */
-final class Product
+class Category
 {
-    /**
-     * @var string
-     *
-     * @ES\Type(type="string", name="id", index="not_analyzed")
-     */
-    public $id;
-
-    /**
-     * @var string
-     *
-     * @ES\Type(type="string", name="title")
-     */
-    public $title;
+    public $hiddenField;
 }

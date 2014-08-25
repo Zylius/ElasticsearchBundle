@@ -13,26 +13,31 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\Document;
+namespace Fox\ElasticsearchBundle\Tests\Unit\Annotation;
 
-use Fox\ElasticsearchBundle\Annotation as ES;
 
-/**
- * @ES\Document
- */
-final class Product
+use Fox\ElasticsearchBundle\Annotation\Type;
+
+class TypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
-     *
-     * @ES\Type(type="string", name="id", index="not_analyzed")
+     * Tests if values are filtered correctly
      */
-    public $id;
+    public function testFilter()
+    {
+        $type = new Type();
 
-    /**
-     * @var string
-     *
-     * @ES\Type(type="string", name="title")
-     */
-    public $title;
+        $type->name = 'id';
+        $type->index = 'no_index';
+        $type->type = 'string';
+        $type->analyzer = null;
+
+        $this->assertEquals(
+            [
+                'index' => 'no_index',
+                'type' => 'string'
+            ],
+            $type->filter()
+        );
+    }
 }

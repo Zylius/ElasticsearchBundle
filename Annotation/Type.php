@@ -25,11 +25,15 @@ final class Type
 {
     /**
      * @var string
+     *
+     * @Required
      */
     public $name;
 
     /**
      * @var string
+     *
+     * @Required
      */
     public $type;
 
