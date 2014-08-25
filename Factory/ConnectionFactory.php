@@ -13,10 +13,10 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Factory;
+namespace ElasticsearchBundle\Factory;
 
 use Elasticsearch\Client;
-use Fox\ElasticsearchBundle\Service\Connection;
+use ElasticsearchBundle\Service\Connection;
 
 /**
  * Factory for elasticsearch connection

@@ -13,9 +13,9 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Command;
+namespace ElasticsearchBundle\Command;
 
-use Fox\ElasticsearchBundle\Service\ElasticsearchService;
+use ElasticsearchBundle\Service\ElasticsearchService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

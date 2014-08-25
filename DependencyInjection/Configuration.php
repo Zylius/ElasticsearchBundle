@@ -1,6 +1,6 @@
 <?php
 
-namespace Fox\ElasticsearchBundle\DependencyInjection;
+namespace ElasticsearchBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -18,19 +18,19 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('fox_elasticsearch');
+        $rootNode = $treeBuilder->root('elasticsearch');
 
         $rootNode
             ->children()
                 ->arrayNode('connections')
                     ->isRequired()
                     ->requiresAtLeastOneElement()
-                    ->info('Defines indexes and its settings.')
+                    ->info('Defines connections to indexes and its settings.')
                     ->prototype('array')
                         ->children()
                             ->arrayNode('hosts')
                                 ->info('Defines hosts to connect to.')
-                                ->requiresAtLeastOneElement()
+                                ->defaultValue([])
                                 ->prototype('array')
                                     ->children()
                                         ->scalarNode('host')
@@ -46,12 +46,31 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->scalarNode('index_name')
                                 ->isRequired()
-                                ->info('Sets index name for connection')
+                                ->info('Sets index name for connection.')
                             ->end()
                             ->arrayNode('settings')
+                                ->defaultValue([])
+                                ->info('Sets index settings for connection.')
+                                ->prototype('variable')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+                ->arrayNode('document_managers')
+                    ->isRequired()
+                    ->requiresAtLeastOneElement()
+                    ->info('Mapps managers to connections and bundles')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('connection')
                                 ->isRequired()
-                                ->prototype('variable')
-                                ->end()
+                                ->info('Sets connection for manager.')
+                            ->end()
+                            ->arrayNode('mappings')
+                                ->isRequired()
+                                ->requiresAtLeastOneElement()
+                                ->info('Mapps manager to bundles. f.e. AcmeDemoBundle')
+                                ->prototype('scalar')->end()
                             ->end()
                         ->end()
                     ->end()

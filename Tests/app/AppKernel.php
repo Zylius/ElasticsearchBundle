@@ -9,7 +9,9 @@ class AppKernel extends Kernel
     {
         return array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new Fox\ElasticsearchBundle\FoxElasticsearchBundle()
+            new ElasticsearchBundle\ElasticsearchBundle(),
+            //for testing document loading
+            new ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\AcmeTestBundle(),
         );
     }
 
@@ -17,5 +19,4 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
-
 }

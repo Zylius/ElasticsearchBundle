@@ -3,10 +3,22 @@ imports:
 
 # Framework Configuration
 framework:
-    test: ~
-    secret: DontTellThisToAnyone
+    esi:             ~
+    fragments:       { path: /_proxy }
+    translator:      { fallback: "%locale%" }
+    secret:          %secret%
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: %kernel.debug%
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    default_locale:  "%locale%"
+    trusted_proxies: ~
+    session:         ~
+    test:            ~
 
-fox_elasticsearch:
+elasticsearch:
     connections:
         default:
             hosts:
@@ -22,3 +34,12 @@ fox_elasticsearch:
             settings:
                 refresh_interval: -1
                 number_of_replicas: 2
+    document_managers:
+        default:
+            connection: default
+            mappings:
+                - AcmeTestBundle
+        bar:
+            connection: bar
+            mappings:
+                - ElasticsearchBundle

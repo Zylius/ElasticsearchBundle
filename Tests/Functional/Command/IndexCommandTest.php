@@ -13,10 +13,10 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Tests\Functional\Command;
+namespace ElasticsearchBundle\Tests\Functional\Command;
 
-use Fox\ElasticsearchBundle\Command\CreateIndexCommand;
-use Fox\ElasticsearchBundle\Command\DropIndexCommand;
+use ElasticsearchBundle\Command\CreateIndexCommand;
+use ElasticsearchBundle\Command\DropIndexCommand;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
