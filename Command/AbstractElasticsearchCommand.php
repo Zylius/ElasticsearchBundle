@@ -13,9 +13,9 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Command;
+namespace ElasticsearchBundle\Command;
 
-use Fox\ElasticsearchBundle\Service\ElasticsearchConnection;
+use ElasticsearchBundle\Service\ElasticsearchConnection;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 abstract class AbstractElasticsearchCommand extends ContainerAwareCommand

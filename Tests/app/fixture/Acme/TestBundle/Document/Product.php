@@ -13,9 +13,9 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\Document;
+namespace ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\Document;
 
-use Fox\ElasticsearchBundle\Annotation as ES;
+use ElasticsearchBundle\Annotation as ES;
 
 /**
  * @ES\Document
@@ -25,14 +25,14 @@ final class Product
     /**
      * @var string
      *
-     * @ES\Type(type="string", name="id", index="not_analyzed")
+     * @ES\Property(type="string", name="id", index="not_analyzed")
      */
     public $id;
 
     /**
      * @var string
      *
-     * @ES\Type(type="string", name="title")
+     * @ES\Property(type="string", name="title")
      */
     public $title;
 }

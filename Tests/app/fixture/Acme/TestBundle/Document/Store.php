@@ -13,7 +13,7 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\Document;
+namespace ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\Document;
 
 /**
  * Class Store

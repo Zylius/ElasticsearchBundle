@@ -18,7 +18,7 @@ framework:
     session:         ~
     test:            ~
 
-fox_elasticsearch:
+elasticsearch:
     connections:
         default:
             hosts:
@@ -42,4 +42,4 @@ fox_elasticsearch:
         bar:
             connection: bar
             mappings:
-                - FoxElasticsearchBundle
+                - ElasticsearchBundle

@@ -21,8 +21,8 @@
     },
     "autoload": {
         "psr-0": {
-            "Fox\\ElasticsearchBundle": ""
+            "ElasticsearchBundle": ""
         }
     },
-    "target-dir": "Fox/ElasticsearchBundle"
+    "target-dir": "ElasticsearchBundle"
 }

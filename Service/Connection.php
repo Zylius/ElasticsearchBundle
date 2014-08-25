@@ -13,7 +13,7 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Service;
+namespace ElasticsearchBundle\Service;
 
 use Elasticsearch\Client;
 

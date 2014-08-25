@@ -13,9 +13,9 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\Document;
+namespace ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\Document;
 
-use Fox\ElasticsearchBundle\Annotation as ES;
+use ElasticsearchBundle\Annotation as ES;
 
 /**
  * @ES\Document

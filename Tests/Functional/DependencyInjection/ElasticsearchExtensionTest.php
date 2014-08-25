@@ -13,12 +13,12 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Tests\Functional\DependencyInjection;
+namespace ElasticsearchBundle\Tests\Functional\DependencyInjection;
 
-use Fox\ElasticsearchBundle\Service\Connection;
+use ElasticsearchBundle\Service\Connection;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class FoxElasticsearchExtensionTest extends WebTestCase
+class ElasticsearchExtensionTest extends WebTestCase
 {
     /**
      * @return array
@@ -26,9 +26,9 @@ class FoxElasticsearchExtensionTest extends WebTestCase
     public function getTestContainerData()
     {
         return [
-            ['es.connection_factory', 'Fox\ElasticsearchBundle\Factory\ConnectionFactory'],
-            ['es.connection', 'Fox\ElasticsearchBundle\Service\Connection'],
-            ['es.connection.bar', 'Fox\ElasticsearchBundle\Service\Connection'],
+            ['es.connection_factory', 'ElasticsearchBundle\Factory\ConnectionFactory'],
+            ['es.connection', 'ElasticsearchBundle\Service\Connection'],
+            ['es.connection.bar', 'ElasticsearchBundle\Service\Connection'],
         ];
     }
 

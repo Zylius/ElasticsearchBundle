@@ -1,6 +1,6 @@
 <?php
 
-namespace Fox\ElasticsearchBundle\DependencyInjection;
+namespace ElasticsearchBundle\DependencyInjection;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
@@ -16,14 +16,14 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class FoxElasticsearchExtension extends Extension
+class ElasticsearchExtension extends Extension
 {
     /**
      * Annotations to load
      *
      * @var array
      */
-    protected $annotations = ['Document', 'Type'];
+    protected $annotations = ['Document', 'Property'];
 
     /**
      * Contains mappings gatherd from bundle documents
@@ -84,7 +84,7 @@ class FoxElasticsearchExtension extends Extension
             !empty($mappings) && $index['body']['mappings'] = $mappings;
 
             $service = new Definition(
-                'Fox\ElasticsearchBundle\Service\Connection',
+                'ElasticsearchBundle\Service\Connection',
                 [$index]
             );
             $service->setFactoryService('es.connection_factory');
@@ -207,10 +207,10 @@ class FoxElasticsearchExtension extends Extension
         $mapping = [];
         $reader = new AnnotationReader();
 
-        if ($reader->getClassAnnotation($reflectionClass, 'Fox\ElasticsearchBundle\Annotation\Document')) {
+        if ($reader->getClassAnnotation($reflectionClass, 'ElasticsearchBundle\Annotation\Document')) {
             /** @var \ReflectionProperty $property */
             foreach ($reflectionClass->getProperties() as $property) {
-                $type = $reader->getPropertyAnnotation($property, 'Fox\ElasticsearchBundle\Annotation\Type');
+                $type = $reader->getPropertyAnnotation($property, 'ElasticsearchBundle\Annotation\Property');
                 !empty($type) && $mapping[$type->name] = $type->filter();
             }
 

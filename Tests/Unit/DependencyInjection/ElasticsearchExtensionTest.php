@@ -13,14 +13,14 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Tests\Unit\DependencyInjection;
+namespace ElasticsearchBundle\Tests\Unit\DependencyInjection;
 
 
-use Fox\ElasticsearchBundle\Factory\ConnectionFactory;
-use Fox\ElasticsearchBundle\DependencyInjection\FoxElasticsearchExtension;
+use ElasticsearchBundle\Factory\ConnectionFactory;
+use ElasticsearchBundle\DependencyInjection\ElasticsearchExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class FoxElasticsearchExtensionTest extends \PHPUnit_Framework_TestCase
+class ElasticsearchExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests if bundle not found exception is thrown
@@ -35,7 +35,7 @@ class FoxElasticsearchExtensionTest extends \PHPUnit_Framework_TestCase
         $container->set('es.connection_factory', new ConnectionFactory());
         $container->setParameter('kernel.bundles', []);
 
-        $extension = new FoxElasticsearchExtension();
+        $extension = new ElasticsearchExtension();
         $extension->load($config, $container);
     }
 
@@ -47,7 +47,7 @@ class FoxElasticsearchExtensionTest extends \PHPUnit_Framework_TestCase
         $config = array_replace_recursive(
             $this->getDefaultConfig(),
             [
-                'fox_elasticsearch' => [
+                'elasticsearch' => [
                     'document_managers' => [
                         'default' => [
                             'mappings' => [
@@ -58,7 +58,7 @@ class FoxElasticsearchExtensionTest extends \PHPUnit_Framework_TestCase
                             'connection' => 'default',
                             'mappings' => [
                                 'AcmeTestBundle',
-                                'FoxElasticsearchBundle'
+                                'ElasticsearchBundle'
                             ]
                         ]
                     ]
@@ -71,12 +71,12 @@ class FoxElasticsearchExtensionTest extends \PHPUnit_Framework_TestCase
         $container->setParameter(
             'kernel.bundles',
             [
-                'AcmeTestBundle' => 'Fox\ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\AcmeTestBundle',
-                'FoxElasticsearchBundle' => 'Fox\ElasticsearchBundle\FoxElasticsearchBundle'
+                'AcmeTestBundle' => 'ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\AcmeTestBundle',
+                'ElasticsearchBundle' => 'ElasticsearchBundle\ElasticsearchBundle'
             ]
         );
 
-        $extension = new FoxElasticsearchExtension();
+        $extension = new ElasticsearchExtension();
         $extension->load($config, $container);
 
         $this->assertEquals(
@@ -103,7 +103,7 @@ class FoxElasticsearchExtensionTest extends \PHPUnit_Framework_TestCase
     protected function getDefaultConfig()
     {
         return [
-            'fox_elasticsearch' => [
+            'elasticsearch' => [
                 'connections' => [
                     'default' => [
                         'hosts' => [

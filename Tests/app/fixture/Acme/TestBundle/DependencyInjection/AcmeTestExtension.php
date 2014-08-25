@@ -1,6 +1,6 @@
 <?php
 
-namespace Fox\ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\DependencyInjection;
+namespace ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

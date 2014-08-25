@@ -13,10 +13,9 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Tests\Unit\Annotation;
+namespace ElasticsearchBundle\Tests\Unit\Annotation;
 
-
-use Fox\ElasticsearchBundle\Annotation\Type;
+use ElasticsearchBundle\Annotation\Property;
 
 class TypeTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +24,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testFilter()
     {
-        $type = new Type();
+        $type = new Property();
 
         $type->name = 'id';
         $type->index = 'no_index';

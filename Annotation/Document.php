@@ -13,7 +13,7 @@
  *************************************************************************
  */
 
-namespace Fox\ElasticsearchBundle\Annotation;
+namespace ElasticsearchBundle\Annotation;
 
 /**
  * Annotation that can be used to signal to the parser

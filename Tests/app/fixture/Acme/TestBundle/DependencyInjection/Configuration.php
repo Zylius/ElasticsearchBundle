@@ -1,6 +1,6 @@
 <?php
 
-namespace Fox\ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\DependencyInjection;
+namespace ElasticsearchBundle\Tests\app\fixture\Acme\TestBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
