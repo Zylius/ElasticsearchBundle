@@ -66,7 +66,6 @@ class ElasticsearchExtensionTest extends \PHPUnit_Framework_TestCase
             ]
         );
         $container = new ContainerBuilder();
-
         $container->set('es.connection_factory', new ConnectionFactory());
         $container->setParameter(
             'kernel.bundles',
