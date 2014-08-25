@@ -40,7 +40,7 @@ class FoxElasticsearchExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests if mapping is loaded from cache
+     * Tests if mapping is loaded correctly
      */
     public function testMapping()
     {
@@ -124,4 +124,3 @@ class FoxElasticsearchExtensionTest extends \PHPUnit_Framework_TestCase
         ];
     }
 }
-

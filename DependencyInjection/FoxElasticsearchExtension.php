@@ -44,7 +44,6 @@ class FoxElasticsearchExtension extends Extension
         $loader->load('services.yml');
 
         $this->loadElasticsearchServices($config, $container);
-        $this->loadDocumentManagers($config, $container);
     }
 
     /**
@@ -95,19 +94,6 @@ class FoxElasticsearchExtension extends Extension
                 $this->getServiceId($name),
                 $service
             );
-        }
-    }
-
-    /**
-     * Loads document managers
-     *
-     * @param array $config
-     * @param ContainerBuilder $container
-     */
-    protected function loadDocumentManagers($config, ContainerBuilder $container)
-    {
-        foreach ($config['document_managers'] as $manager) {
-            //TODO
         }
     }
 
