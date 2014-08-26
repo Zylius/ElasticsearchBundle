@@ -16,11 +16,11 @@
 namespace ElasticsearchBundle\Tests\Functional\Command;
 
 use ElasticsearchBundle\Command\CreateIndexCommand;
-use ElasticsearchBundle\Test\Base;
+use ElasticsearchBundle\Test\BaseTest;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CreateIndexCommandTest extends Base
+class CreateIndexCommandTest extends BaseTest
 {
     /**
      * Execution data provider

@@ -23,17 +23,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Base test which creates unique connection to test with
  */
-abstract class Base extends WebTestCase
+abstract class BaseTest extends WebTestCase
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
     /**
      * @var Connection
      */
     protected $connection;
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
     /**
      * {@inheritdoc}
@@ -63,17 +63,13 @@ abstract class Base extends WebTestCase
     /**
      * @return ContainerInterface
      */
-    protected function getContainer()
+    public function getContainer()
     {
         if ($this->container) {
             return $this->container;
         }
 
-        try {
-            return $this->container = self::createClient()->getContainer();
-        } catch (\Exception $e) {
-            print $e->getMessage();
-        }
+        return $this->container = self::createClient()->getContainer();
     }
 
     /**

@@ -31,7 +31,6 @@
         <whitelist>
             <directory>./</directory>
             <exclude>
-                <directory>./Test</directory>
                 <directory>./Tests</directory>
                 <directory>./vendor</directory>
                 <directory>./Resources</directory>

@@ -16,11 +16,11 @@
 namespace ElasticsearchBundle\Tests\Functional\Command;
 
 use ElasticsearchBundle\Command\DropIndexCommand;
-use ElasticsearchBundle\Test\Base;
+use ElasticsearchBundle\Test\BaseTest;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class DropIndexCommandTest extends Base
+class DropIndexCommandTest extends BaseTest
 {
     /**
      * Execution data provider
