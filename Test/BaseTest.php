@@ -63,7 +63,7 @@ abstract class BaseTest extends WebTestCase
     /**
      * @return ContainerInterface
      */
-    public function getContainer()
+    protected function getContainer()
     {
         if ($this->container) {
             return $this->container;

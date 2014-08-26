@@ -18,9 +18,9 @@ namespace ElasticsearchBundle\Tests\Unit\Test;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Tests base test
+ * Tests BaseTest
  */
-class BaseTest extends \PHPUnit_Framework_TestCase
+class BaseTestTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests setup
@@ -49,7 +49,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($factory));
 
         $mock = $this
-            ->getMockBuilder('ElasticsearchBundle\Test\BaseTest')
+            ->getMockBuilder('ElasticsearchBundle\Tests\Unit\Test\BaseTestDummy')
             ->disableOriginalConstructor()
             ->getMock();
         $mock
