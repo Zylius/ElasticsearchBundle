@@ -53,7 +53,7 @@ class Connection
     }
 
     /**
-     * Creates elasticsearch index
+     * Creates fresh connection index
      */
     public function createIndex()
     {
@@ -61,15 +61,39 @@ class Connection
     }
 
     /**
-     * Drops elasticsearch index
+     * Drops connection index
      */
     public function dropIndex()
     {
-        $this->client->indices()->delete(['index' => $this->index['index']]);
+        $this->client->indices()->delete(['index' => $this->getIndexName()]);
     }
 
     /**
-     * Returns index name this service is attached to
+     * Tries to drop and create fresh connection index
+     */
+    public function dropAndCreateIndex()
+    {
+        try {
+            $this->dropIndex();
+        } catch (\Exception $e) {
+            //Do nothing because I'm only trying
+        }
+
+        $this->createIndex();
+    }
+
+    /**
+     * Checks if connection index is already created
+     *
+     * @return bool
+     */
+    public function indexExists()
+    {
+        return $this->client->indices()->exists(['index' => $this->getIndexName()]);
+    }
+
+    /**
+     * Returns index name this connection is attached to
      *
      * @return string
      */
