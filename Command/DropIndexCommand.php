@@ -31,15 +31,11 @@ class DropIndexCommand extends AbstractElasticsearchCommand
      */
     protected function configure()
     {
+        parent::configure();
+
         $this
             ->setName('es:index:drop')
             ->setDescription('Drops elasticsearch index')
-            ->addOption(
-                'connection',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Set index to drop'
-            )
             ->addOption(
                 'force',
                 null,

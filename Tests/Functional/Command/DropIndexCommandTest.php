@@ -44,7 +44,7 @@ class DropIndexCommandTest extends BaseTest
      */
     public function testExecute($connection = '')
     {
-        $this->setUpConnection($connection, true);
+        $this->getConnection($connection);
 
         $app = new Application();
         $app->add($this->getDropCommand());
@@ -56,7 +56,12 @@ class DropIndexCommandTest extends BaseTest
             'command' => $command->getName(),
             '--connection' => $connection,
         ]);
-        $this->assertTrue($this->connection->indexExists(), 'Index should still exist.');
+        $this->assertTrue(
+            $this
+                ->getConnection($connection)
+                ->indexExists(),
+            'Index should still exist.'
+        );
 
         //does drop index
         $commandTester->execute([
@@ -65,15 +70,12 @@ class DropIndexCommandTest extends BaseTest
             '--force' => true,
         ]);
 
-        $this->assertFalse($this->connection->indexExists(), 'Index should be dropped.');
-    }
-
-    /**
-     * {@inhertidoc}
-     */
-    protected function setUp()
-    {
-        //nothing to do
+        $this->assertFalse(
+            $this
+                ->getConnection($connection)
+                ->indexExists(),
+            'Index should be dropped.'
+        );
     }
 
     /**
@@ -82,23 +84,6 @@ class DropIndexCommandTest extends BaseTest
     protected function tearDown()
     {
         //nothing to do
-    }
-
-    /**
-     * Sets up connection to work with from container
-     *
-     * @param string $connection
-     * @param bool $createIndex
-     */
-    protected function setUpConnection($connection = '', $createIndex = false)
-    {
-        if (!$connection) {
-            $this->connection = $this->getContainer()->get("es.connection");
-        } else {
-            $this->connection = $this->getContainer()->get("es.connection.{$connection}");
-        }
-
-        $createIndex && $this->connection->createIndex();
     }
 
     /**

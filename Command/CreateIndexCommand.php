@@ -31,15 +31,11 @@ class CreateIndexCommand extends AbstractElasticsearchCommand
      */
     protected function configure()
     {
+        parent::configure();
+
         $this
             ->setName('es:index:create')
-            ->setDescription('Creates elasticsearch index.')
-            ->addOption(
-                'connection',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Index name to create'
-            );
+            ->setDescription('Creates elasticsearch index.');
     }
 
     /**

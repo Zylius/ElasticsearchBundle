@@ -36,14 +36,6 @@ class CreateIndexCommandTest extends BaseTest
     }
 
     /**
-     * {@inhertidoc}
-     */
-    protected function setUp()
-    {
-        //nothing to do
-    }
-
-    /**
      * Tests creating index. Configuration from tests yaml
      *
      * @param string $connection
@@ -52,7 +44,8 @@ class CreateIndexCommandTest extends BaseTest
      */
     public function testExecute($connection)
     {
-        $this->setUpConnection($connection);
+        $this->getConnection($connection, false);
+
         $app = new Application();
         $app->add($this->getCreateCommand());
 
@@ -64,7 +57,7 @@ class CreateIndexCommandTest extends BaseTest
             '--connection' => $connection
         ]);
 
-        $this->assertTrue($this->connection->indexExists(), 'Index should exist.');
+        $this->assertTrue($this->getConnection()->indexExists(), 'Index should exist.');
     }
 
     /**
@@ -78,19 +71,5 @@ class CreateIndexCommandTest extends BaseTest
         $command->setContainer($this->getContainer());
 
         return $command;
-    }
-
-    /**
-     * Sets up connection to work with from container
-     *
-     * @param string $connection
-     */
-    protected function setUpConnection($connection = '')
-    {
-        if (!$connection) {
-            $this->connection = $this->getContainer()->get("es.connection");
-        } else {
-            $this->connection = $this->getContainer()->get("es.connection.{$connection}");
-        }
     }
 }
