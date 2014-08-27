@@ -90,10 +90,12 @@ abstract class BaseTest extends WebTestCase
      *
      * @param string $name
      * @param bool $createIndex
+     * @param array $customName index name
+     * @param array $customConfig index config
      *
      * @return Connection
      */
-    protected function getConnection($name = 'default', $createIndex = true)
+    protected function getConnection($name = 'default', $createIndex = true, $customName = '', $customConfig = [])
     {
         $name = empty($name) ? 'default' : $name;
 
@@ -111,10 +113,10 @@ abstract class BaseTest extends WebTestCase
                 ->get($id);
         } catch (ServiceNotFoundException $e) {
             $index = [
-                'index' => uniqid('elasticsearch_')
+                'index' => empty($customName) ? uniqid('elasticsearch_') : $customName
             ];
 
-            $config = $this->getIndexConfig();
+            $config = empty($customConfig) ? $this->getIndexConfig() : $customConfig;
             !empty($config) && $index['body'] = $config;
 
             $connection = $this->getContainer()->get('es.connection_factory')->get($index);
