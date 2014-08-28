@@ -132,7 +132,7 @@ class Connection
             ->indices()
             ->getMapping(['index' => $indexName]);
 
-        if (isset($this->index['body']['mappings']) && !empty($this->index['body']['mappings'])) {
+        if (!empty($this->index['body']['mappings'])) {
 
             $tool = new MappingTool();
             $updated = false;
