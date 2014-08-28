@@ -41,16 +41,14 @@ class UpdateTypeCommand extends AbstractElasticsearchCommand
         /** @var Connection $connection */
         $connection = $this->getConnection($input->getOption('connection'));
 
-        switch($connection->updateMapping()) {
-            case 1:
-                $output->writeln('<info>Types updated.</info>');
-                break;
-            case 0:
-                $output->writeln('<info>Types are already up to date.</info>');
-                break;
-            case -1:
-                $output->writeln('<info>No information found about types.</info>');
-                break;
+        $result = $connection->updateMapping();
+
+        if ($result === true) {
+            $output->writeln('<info>Types updated.</info>');
+        } elseif ($result === false) {
+            $output->writeln('<info>Types are already up to date.</info>');
+        } else {
+            throw new \UnexpectedValueException('Expected boolean value from Connection::updateMapping()');
         }
     }
 }

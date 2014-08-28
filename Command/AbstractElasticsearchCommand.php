@@ -30,7 +30,7 @@ abstract class AbstractElasticsearchCommand extends ContainerAwareCommand
             'connection',
             null,
             InputOption::VALUE_REQUIRED,
-            'Set index to work with.'
+            'Set connection to work with.'
         );
     }
 

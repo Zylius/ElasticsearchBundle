@@ -45,9 +45,11 @@ class UpdateTypeCommandTest extends \PHPUnit_Framework_TestCase
         $connMock1
             ->expects($this->once())
             ->method('updateMapping')
-            ->will($this->returnValue(1));
+            ->will($this->returnValue(true));
         $container->set('es.connection', $connMock1);
         $expected = 'types updated';
+
+        $out[] = [$container, $expected];
 
         //case #1: status -1
         $container = new ContainerBuilder();
@@ -55,9 +57,11 @@ class UpdateTypeCommandTest extends \PHPUnit_Framework_TestCase
         $connMock2
             ->expects($this->once())
             ->method('updateMapping')
-            ->will($this->returnValue(-1));
+            ->will($this->returnValue(null));
         $container->set('es.connection', $connMock2);
-        $expected = 'no information found about types.';
+        $expected = '';
+
+        $out[] = [$container, $expected, true];
 
         //case #1: status 0
         $container = new ContainerBuilder();
@@ -65,7 +69,7 @@ class UpdateTypeCommandTest extends \PHPUnit_Framework_TestCase
         $connMock3
             ->expects($this->once())
             ->method('updateMapping')
-            ->will($this->returnValue(0));
+            ->will($this->returnValue(false));
         $container->set('es.connection', $connMock3);
         $expected = 'types are already up to date';
 
@@ -79,10 +83,11 @@ class UpdateTypeCommandTest extends \PHPUnit_Framework_TestCase
      *
      * @param ContainerBuilder $container
      * @param string $expected
+     * @param bool $expectedException
      *
      * @dataProvider getTextExecuteData
      */
-    public function testExecute($container, $expected)
+    public function testExecute($container, $expected, $expectedException = false)
     {
         $command = new UpdateTypeCommand();
         $command->setContainer($container);
@@ -92,10 +97,13 @@ class UpdateTypeCommandTest extends \PHPUnit_Framework_TestCase
 
         $command = $app->find('es:type:update');
         $tester = new CommandTester($command);
+
+        $expectedException && $this->setExpectedException('\UnexpectedValueException');
+
         $tester->execute([
             'command' => $command->getName()
         ]);
 
-        $this->assertContains($expected, strtolower($tester->getDisplay()));
+        !$expectedException && $this->assertContains($expected, strtolower($tester->getDisplay()));
     }
 }

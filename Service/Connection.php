@@ -119,12 +119,10 @@ class Connection
     }
 
     /**
-     * Mapping is compared with loaded, if needed updates it.
+     * Mapping is compared with loaded, if needed updates it and returns true.
      *
-     * @return int status:
-     *      -1: mapping not set
-     *       1: mapping updated
-     *       0: mapping does not need an update
+     * @return bool
+     * @throws \LogicException
      */
     public function updateMapping()
     {
@@ -160,9 +158,9 @@ class Connection
                 }
             }
 
-            return $updated ? 1 : 0;
+            return $updated;
         }
 
-        return -1;
+        throw new \LogicException('Connection does not have any mapping loaded.');
     }
 }

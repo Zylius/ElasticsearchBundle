@@ -22,6 +22,9 @@ use ElasticsearchBundle\Test\BaseTest;
  */
 class ConnectionTest extends BaseTest
 {
+    /**
+     * @return array
+     */
     protected function getAcmeMapping()
     {
         return [
@@ -41,12 +44,22 @@ class ConnectionTest extends BaseTest
         ];
     }
 
+    /**
+     * Tests updateMapping with real data
+     */
     public function testUpdateMapping()
     {
         $connection = $this->getConnection('bar');
 
-        $status = $connection->updateMapping();
-        $this->assertEquals(-1, $status, 'Mapping should not be found.');
+        //using phpunit setExpectedException does not continue after exception is thrown.
+        $thrown = false;
+        try {
+            $connection->updateMapping();
+        } catch (\LogicException $e) {
+            $thrown = true;
+            //continue
+        }
+        $this->assertTrue($thrown, '\LogicException should be thrown');
 
         $connection = $this->getConnection(
             'barAcme',
@@ -56,6 +69,6 @@ class ConnectionTest extends BaseTest
         );
 
         $status = $connection->updateMapping();
-        $this->assertEquals(1, $status, 'Mapping should be updated');
+        $this->assertTrue($status, 'Mapping should be updated');
     }
 }

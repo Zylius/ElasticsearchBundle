@@ -31,7 +31,7 @@ class UpdateTypeCommandTest extends BaseTest
     {
         return [
             [''],
-            ['bar']
+            ['bar', true]
         ];
     }
 
@@ -39,10 +39,11 @@ class UpdateTypeCommandTest extends BaseTest
      * Tests creating index. Configuration from tests yaml
      *
      * @param string $connection
+     * @param bool $exceptionExpected
      *
      * @dataProvider getTestExecuteData
      */
-    public function testExecute($connection)
+    public function testExecute($connection, $exceptionExpected = false)
     {
         $this->getConnection($connection);
         $app = new Application();
@@ -51,12 +52,15 @@ class UpdateTypeCommandTest extends BaseTest
         //creates index
         $command = $app->find('es:type:update');
         $commandTester = new CommandTester($command);
+
+        $exceptionExpected && $this->setExpectedException('\LogicException');
+
         $commandTester->execute([
             'command' => $command->getName(),
             '--connection' => $connection
         ]);
 
-        $this->assertContains('type', strtolower($commandTester->getDisplay()));
+        !$exceptionExpected && $this->assertContains('type', strtolower($commandTester->getDisplay()));
     }
 
     /**
