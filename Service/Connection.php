@@ -16,7 +16,6 @@
 namespace ElasticsearchBundle\Service;
 
 use Elasticsearch\Client;
-use Elasticsearch\Common\Exceptions\Missing404Exception;
 
 /**
  * This class interacts with elasticsearch using injected client

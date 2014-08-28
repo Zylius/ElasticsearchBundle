@@ -55,14 +55,8 @@ class UpdateTypeCommandTest extends BaseTest
             'command' => $command->getName(),
             '--connection' => $connection
         ]);
-    }
 
-    /**
-     * {@inhertidoc}
-     */
-    protected function setUp()
-    {
-        //nothing to do
+        $this->assertContains('type', strtolower($commandTester->getDisplay()));
     }
 
     /**

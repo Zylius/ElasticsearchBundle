@@ -54,7 +54,7 @@ class MappingToolTest extends \PHPUnit_Framework_TestCase
                 ['a' => 4, 'c' => 10],
                 ['b' => 6, 'c' => 10]
             ],
-            //case #3: multi level difference
+            //case #4: multi level difference
             [
                 [
                     'a' => 4,
