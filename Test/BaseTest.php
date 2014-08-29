@@ -19,6 +19,7 @@ use ElasticsearchBundle\Service\Connection;
 use ElasticsearchBundle\Factory\ConnectionFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 /**
  * Base test which creates unique connection to test with
@@ -26,9 +27,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class BaseTest extends WebTestCase
 {
     /**
-     * @var Connection
+     * Holds used connection names
+     *
+     * @var Connection[]
      */
-    protected $connection;
+    private $connections = [];
 
     /**
      * @var ContainerInterface
@@ -40,16 +43,7 @@ abstract class BaseTest extends WebTestCase
      */
     protected function setUp()
     {
-        $container = $this->getContainer();
-        /** @var ConnectionFactory $factory */
-        $index = [];
-        $index['index'] = uniqid($this->getIndexNamePrefix() . '_');
-
-        $config = $this->getIndexConfig();
-        !empty($config) && $index['body'] = $config;
-
-        $this->connection = $container->get('es.connection_factory')->get($index);
-        $this->connection->dropAndCreateIndex();
+        $this->getContainer();
     }
 
     /**
@@ -57,7 +51,16 @@ abstract class BaseTest extends WebTestCase
      */
     protected function tearDown()
     {
-        $this->connection->dropIndex();
+        foreach ($this->connections as $name) {
+            try {
+                $this
+                    ->getContainer()
+                    ->get($this->getConnectionId($name))
+                    ->dropIndex();
+            } catch (\Exception $e) {
+                //do nothing
+            }
+        }
     }
 
     /**
@@ -83,12 +86,58 @@ abstract class BaseTest extends WebTestCase
     }
 
     /**
-     * Returns prefix for test index names
+     * Returns connection instance if does not exist creates new one
+     *
+     * @param string $name
+     * @param bool $createIndex
+     * @param array $customName index name
+     * @param array $customConfig index config
+     *
+     * @return Connection
+     */
+    protected function getConnection($name = 'default', $createIndex = true, $customName = '', $customConfig = [])
+    {
+        $name = empty($name) ? 'default' : $name;
+
+        //looks for cached connection
+        if (in_array($name, $this->connections)) {
+            return $this->getContainer()->get($this->getConnectionId($name));
+        }
+
+        $id = $this->getConnectionId($name);
+
+        //looks in container otherwise creates new one
+        try {
+            $connection = $this
+                ->getContainer()
+                ->get($id);
+        } catch (ServiceNotFoundException $e) {
+            $index = [
+                'index' => empty($customName) ? uniqid('elasticsearch_') : $customName
+            ];
+
+            $config = empty($customConfig) ? $this->getIndexConfig() : $customConfig;
+            !empty($config) && $index['body'] = $config;
+
+            $connection = $this->getContainer()->get('es.connection_factory')->get($index);
+            $this->getContainer()->set($id, $connection);
+        }
+
+        $createIndex && $connection->dropAndCreateIndex();
+        $this->connections[] = $name;
+
+        return $connection;
+    }
+
+    /**
+     * Formats service id for connection
+     *
+     * @param string $name
      *
      * @return string
      */
-    protected function getIndexNamePrefix()
+    private function getConnectionId($name)
     {
-        return 'elasticsearch';
+        return $name == 'default' ? 'es.connection' : sprintf("es.connection.%s", $name);
     }
 }

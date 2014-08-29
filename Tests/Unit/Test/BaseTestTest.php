@@ -16,6 +16,7 @@
 namespace ElasticsearchBundle\Tests\Unit\Test;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 /**
  * Tests BaseTest
@@ -23,16 +24,16 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class BaseTestTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests setup
+     * Tests getting not existing connection
      */
-    public function testSetUp()
+    public function testGettingNotExistingConnection()
     {
         $connectionMock = $this
             ->getMockBuilder('ElasticsearchBundle\Service\Connection')
             ->disableOriginalConstructor()
             ->getMock();
         $connectionMock
-            ->expects($this->once())
+            ->expects($this->never())
             ->method('dropAndCreateIndex');
 
         $factory = $this->getMock('ElasticsearchBundle\Factory\ConnectionFactory', ['get']);
@@ -43,22 +44,30 @@ class BaseTestTest extends \PHPUnit_Framework_TestCase
 
         $containerMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $containerMock
-            ->expects($this->once())
+            ->expects($this->at(0))
+            ->method('get')
+            ->with('es.connection.random')
+            ->will($this->throwException(new ServiceNotFoundException('es.connection.random')));
+        $containerMock
+            ->expects($this->at(1))
             ->method('get')
             ->with('es.connection_factory')
             ->will($this->returnValue($factory));
+        $containerMock
+            ->expects($this->once())
+            ->method('set');
 
         $mock = $this
             ->getMockBuilder('ElasticsearchBundle\Tests\Unit\Test\BaseTestDummy')
             ->disableOriginalConstructor()
             ->getMock();
         $mock
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getContainer')
             ->will($this->returnValue($containerMock));
 
-        $reflection = new \ReflectionMethod($mock, 'setUp');
+        $reflection = new \ReflectionMethod($mock, 'getConnection');
         $reflection->setAccessible(true);
-        $reflection->invoke($mock);
+        $reflection->invokeArgs($mock, ['random', false]);
     }
 }

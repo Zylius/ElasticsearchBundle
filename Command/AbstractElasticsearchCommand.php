@@ -17,13 +17,27 @@ namespace ElasticsearchBundle\Command;
 
 use ElasticsearchBundle\Service\ElasticsearchConnection;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputOption;
 
 abstract class AbstractElasticsearchCommand extends ContainerAwareCommand
 {
     /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        $this->addOption(
+            'connection',
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Set connection to work with.'
+        );
+    }
+
+    /**
      * Returns elasticsearch connection by name
      *
-     * @param $name
+     * @param string $name
      *
      * @return ElasticsearchConnection
      */

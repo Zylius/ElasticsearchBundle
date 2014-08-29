@@ -15,12 +15,12 @@
 
 namespace ElasticsearchBundle\Tests\Functional\Command;
 
-use ElasticsearchBundle\Command\DropIndexCommand;
+use ElasticsearchBundle\Command\UpdateTypeCommand;
 use ElasticsearchBundle\Test\BaseTest;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class DropIndexCommandTest extends BaseTest
+class UpdateTypeCommandTest extends BaseTest
 {
     /**
      * Execution data provider
@@ -30,70 +30,47 @@ class DropIndexCommandTest extends BaseTest
     public function getTestExecuteData()
     {
         return [
-            [],
-            ['bar']
+            [''],
+            ['bar', true]
         ];
     }
 
     /**
-     * Tests dropping index. Configuration from tests yaml
+     * Tests creating index. Configuration from tests yaml
      *
      * @param string $connection
+     * @param bool $exceptionExpected
      *
      * @dataProvider getTestExecuteData
      */
-    public function testExecute($connection = '')
+    public function testExecute($connection, $exceptionExpected = false)
     {
         $this->getConnection($connection);
-
         $app = new Application();
-        $app->add($this->getDropCommand());
+        $app->add($this->getUpdateTypeCommand());
 
-        //does not drop index
-        $command = $app->find('es:index:drop');
+        //creates index
+        $command = $app->find('es:type:update');
         $commandTester = new CommandTester($command);
+
+        $exceptionExpected && $this->setExpectedException('\LogicException');
+
         $commandTester->execute([
             'command' => $command->getName(),
-            '--connection' => $connection,
-        ]);
-        $this->assertTrue(
-            $this
-                ->getConnection($connection)
-                ->indexExists(),
-            'Index should still exist.'
-        );
-
-        //does drop index
-        $commandTester->execute([
-            'command' => $command->getName(),
-            '--connection' => $connection,
-            '--force' => true,
+            '--connection' => $connection
         ]);
 
-        $this->assertFalse(
-            $this
-                ->getConnection($connection)
-                ->indexExists(),
-            'Index should be dropped.'
-        );
+        !$exceptionExpected && $this->assertContains('type', strtolower($commandTester->getDisplay()));
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function tearDown()
-    {
-        //nothing to do
-    }
-
-    /**
-     * Returns drop index command with setted container
+     * Returns create index command with setted container
      *
-     * @return DropIndexCommand
+     * @return UpdateTypeCommand
      */
-    protected function getDropCommand()
+    protected function getUpdateTypeCommand()
     {
-        $command = new DropIndexCommand();
+        $command = new UpdateTypeCommand();
         $command->setContainer($this->getContainer());
 
         return $command;

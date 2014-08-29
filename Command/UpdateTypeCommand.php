@@ -15,16 +15,11 @@
 
 namespace ElasticsearchBundle\Command;
 
-use ElasticsearchBundle\Service\ElasticsearchService;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use ElasticsearchBundle\Service\Connection;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Command for dropping elasticsearch index
- */
-class DropIndexCommand extends AbstractElasticsearchCommand
+class UpdateTypeCommand extends AbstractElasticsearchCommand
 {
     /**
      * {@inheritdoc}
@@ -34,14 +29,8 @@ class DropIndexCommand extends AbstractElasticsearchCommand
         parent::configure();
 
         $this
-            ->setName('es:index:drop')
-            ->setDescription('Drops elasticsearch index')
-            ->addOption(
-                'force',
-                null,
-                InputOption::VALUE_NONE,
-                'Set this parameter to execute this command.'
-            );
+            ->setName('es:type:update')
+            ->setDescription('Creates mapping for elasticsearch');
     }
 
     /**
@@ -49,13 +38,17 @@ class DropIndexCommand extends AbstractElasticsearchCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('force')) {
-            $connection = $this->getConnection($input->getOption('connection'));
-            $connection->dropIndex();
+        /** @var Connection $connection */
+        $connection = $this->getConnection($input->getOption('connection'));
 
-            $output->writeln(sprintf('<info>Index %s has been dropped.</info>', $connection->getIndexName()));
+        $result = $connection->updateMapping();
+
+        if ($result === true) {
+            $output->writeln('<info>Types updated.</info>');
+        } elseif ($result === false) {
+            $output->writeln('<info>Types are already up to date.</info>');
         } else {
-            $output->writeln('Parameter --force has to be used to drop the index.');
+            throw new \UnexpectedValueException('Expected boolean value from Connection::updateMapping()');
         }
     }
 }
