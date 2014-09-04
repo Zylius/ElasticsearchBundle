@@ -15,7 +15,7 @@
 
 namespace ElasticsearchBundle\Command;
 
-use ElasticsearchBundle\Service\Connection;
+use ElasticsearchBundle\Client\Connection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

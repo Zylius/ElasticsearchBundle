@@ -15,8 +15,7 @@
 
 namespace ElasticsearchBundle\Test;
 
-use ElasticsearchBundle\Service\Connection;
-use ElasticsearchBundle\Factory\ConnectionFactory;
+use ElasticsearchBundle\Client\Connection;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;

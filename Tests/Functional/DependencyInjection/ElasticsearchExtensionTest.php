@@ -15,7 +15,7 @@
 
 namespace ElasticsearchBundle\Tests\Functional\DependencyInjection;
 
-use ElasticsearchBundle\Service\Connection;
+use ElasticsearchBundle\Client\Connection;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchExtensionTest extends WebTestCase
@@ -26,9 +26,9 @@ class ElasticsearchExtensionTest extends WebTestCase
     public function getTestContainerData()
     {
         return [
-            ['es.connection_factory', 'ElasticsearchBundle\Factory\ConnectionFactory'],
-            ['es.connection', 'ElasticsearchBundle\Service\Connection'],
-            ['es.connection.bar', 'ElasticsearchBundle\Service\Connection'],
+            ['es.connection_factory', 'ElasticsearchBundle\Client\ConnectionFactory'],
+            ['es.connection', 'ElasticsearchBundle\Client\Connection'],
+            ['es.connection.bar', 'ElasticsearchBundle\Client\Connection'],
         ];
     }
 

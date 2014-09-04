@@ -29,14 +29,14 @@ class BaseTestTest extends \PHPUnit_Framework_TestCase
     public function testGettingNotExistingConnection()
     {
         $connectionMock = $this
-            ->getMockBuilder('ElasticsearchBundle\Service\Connection')
+            ->getMockBuilder('ElasticsearchBundle\Client\Connection')
             ->disableOriginalConstructor()
             ->getMock();
         $connectionMock
             ->expects($this->never())
             ->method('dropAndCreateIndex');
 
-        $factory = $this->getMock('ElasticsearchBundle\Factory\ConnectionFactory', ['get']);
+        $factory = $this->getMock('ElasticsearchBundle\Client\ConnectionFactory', ['get']);
         $factory
             ->expects($this->once())
             ->method('get')

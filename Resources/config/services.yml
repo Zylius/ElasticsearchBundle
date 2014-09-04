@@ -1,5 +1,5 @@
 parameters:
-    es.connection_factory.class: ElasticsearchBundle\Factory\ConnectionFactory
+    es.connection_factory.class: ElasticsearchBundle\Client\ConnectionFactory
     es.connection_factory.params:
         logPath: %kernel.logs_dir%/elasticsearch_%kernel.environment%.log
         tracePath: %kernel.logs_dir%/elasticsearch_trace_%kernel.environment%.log

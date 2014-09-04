@@ -15,8 +15,7 @@
 
 namespace ElasticsearchBundle\Tests\Unit\DependencyInjection;
 
-
-use ElasticsearchBundle\Factory\ConnectionFactory;
+use ElasticsearchBundle\Client\ConnectionFactory;
 use ElasticsearchBundle\DependencyInjection\ElasticsearchExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

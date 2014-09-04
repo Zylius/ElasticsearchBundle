@@ -33,7 +33,7 @@ class UpdateTypeCommandTest extends \PHPUnit_Framework_TestCase
     public function getTextExecuteData()
     {
         $connectionMock = $this
-            ->getMockBuilder('ElasticsearchBundle\Service\Connection')
+            ->getMockBuilder('ElasticsearchBundle\Client\Connection')
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -15,8 +15,7 @@
 
 namespace ElasticsearchBundle\Command;
 
-use ElasticsearchBundle\Service\ElasticsearchService;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use ElasticsearchBundle\Client\Connection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -50,6 +49,7 @@ class DropIndexCommand extends AbstractElasticsearchCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($input->getOption('force')) {
+            /** @var Connection $connection */
             $connection = $this->getConnection($input->getOption('connection'));
             $connection->dropIndex();
 

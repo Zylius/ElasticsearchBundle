@@ -13,9 +13,10 @@
  *************************************************************************
  */
 
-namespace ElasticsearchBundle\Service;
+namespace ElasticsearchBundle\Client;
 
 use Elasticsearch\Client;
+use ElasticsearchBundle\Service\MappingTool;
 
 /**
  * This class interacts with elasticsearch using injected client

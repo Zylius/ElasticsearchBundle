@@ -16,7 +16,7 @@
 namespace ElasticsearchBundle\Tests\Unit\Service;
 
 use Elasticsearch\Client;
-use ElasticsearchBundle\Service\Connection;
+use ElasticsearchBundle\Client\Connection;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {

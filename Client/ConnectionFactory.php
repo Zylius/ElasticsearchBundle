@@ -13,10 +13,9 @@
  *************************************************************************
  */
 
-namespace ElasticsearchBundle\Factory;
+namespace ElasticsearchBundle\Client;
 
 use Elasticsearch\Client;
-use ElasticsearchBundle\Service\Connection;
 
 /**
  * Factory for elasticsearch connection
@@ -37,7 +36,7 @@ class ConnectionFactory
      *
      * @param array $index index information
      *
-     * @return ElasticsearchService
+     * @return Connection
      */
     public function get(array $index)
     {
