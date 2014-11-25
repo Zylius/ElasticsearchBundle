@@ -28,6 +28,11 @@ class MappingTool
         'type' => 'object',
         '_routing' => ['required' => true],
         'format' => 'dateOptionalTime',
+        'max_input_length' => 50,
+        'preserve_separators' => true,
+        'preserve_position_increments' => true,
+        'analyzer' => 'simple',
+        'payloads' => false,
     ];
 
     /**
@@ -35,6 +40,7 @@ class MappingTool
      */
     protected $formatFields = [
         '_ttl' => 'handleTime',
+        'precision' => 'handlePrecision',
     ];
 
     /**
@@ -178,5 +184,19 @@ class MappingTool
         $value['default'] = DateHelper::parseString($value['default']);
 
         return $value;
+    }
+
+    /**
+     * Handles precision.
+     *
+     * @param array|string $value
+     *
+     * @return array
+     */
+    private function handlePrecision($value)
+    {
+        // TODO: currently precision is not checked. Issue #46.
+
+        return [];
     }
 }

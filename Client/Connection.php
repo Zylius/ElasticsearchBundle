@@ -344,7 +344,7 @@ class Connection
                         'index' => $indexName,
                         'type' => $type,
                         'body' => [
-                            $type => $properties
+                            $type => $properties,
                         ]
                     ]
                 );
